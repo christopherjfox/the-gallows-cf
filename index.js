@@ -1,4 +1,5 @@
 const express = require('express')
+const res = require('express/lib/response');
 app = express()
 
 var url = require('url');
@@ -88,37 +89,21 @@ app.get('/test', (request, response) => {
     response.end('<h3>The End.</h3>');
 })
 
-// Return Batman as JSON.
-var spiderMan = {
-	"firstName":"Bruce",
-	"lastName":"Wayne",
-	"preferredName":"Batman",
-	"email":"darkknight@lewisu.edu",
-	"phoneNumber":"800-bat-mann",
-	"city":"Gotham",
-	"state":"NJ",
-	"zip":"07101",
-	"lat":"40.73",
-	"lng":"-74.17",
-	"favoriteHobby":"Flying",
-	"class":"cpsc-24700-001",
-	"room":"AS-104-A",
-	"startTime":"2 PM CT",
-	"seatNumber":"",
-	"inPerson":[
-		"Monday",
-		"Wednesday"
-	],
-	"virtual":[
-		"Friday"
-	]
+// Return Hangman game properties as Json.
+var hangmanProperties ={
+    "hangmanProperties" : {
+        "Secret" : "SNAKE",
+        "Player" : "Chris",
+		"Hint": "Scales"
+        }
 }
 
-app.get('/batman', (request, response) => {
-	console.log('Calling "/batman" on the Node.js server.')
+app.get('/hangmanProperties', (request, response) => {
+	console.log('Calling "/hangmanPropeties" on the Node.js server.')
 	response.type('application/json')
-	response.send(JSON.stringify(spiderMan, null, 4))
+	response.send(JSON.stringify(hangmanProperties, null, 4))
 })
+
 
 // Custom 404 page.
 app.use((request, response) => {

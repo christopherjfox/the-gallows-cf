@@ -1,6 +1,7 @@
 
 
-
+const url = "/hangmanProperties";
+var serverJson = {};
 var secretWord,
     secretWordArray = [],
     hiddenWord = [],
@@ -10,8 +11,15 @@ var secretWord,
     score = 0, 
     gameOver = new Boolean;
 
+
     /**************************************/    
-    function init (){
+    async function init (){
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data);
+        serverJson = data;
+        console.log(serverJson);
+        
         setUpGame();  
         console.log("hiddenword: " + hiddenWord + " Turns: " + " Player: " + player + " score: " + score);
 
@@ -21,9 +29,10 @@ var secretWord,
     }
 
     /**************************************/    
-    async  function setUpGame(){
-        secretWord = "POP";
-        player = "chris";
+    async function setUpGame(){
+        secretWord = serverJson.hangmanProperties.Secret;
+        player = serverJson.hangmanProperties.Player;
+        Hint = serverJson.hangmanProperties.Hint;
         gameOver = false; 
         turns = 0; 
         letterBank = [];
@@ -226,5 +235,6 @@ var secretWord,
     function resetGame(){
         init();
     }
+
 
 
