@@ -1,15 +1,56 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Node on Azure</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/mainGame.css">
+    <title>Hang Dude</title>
 </head>
-<body>
-<h1>Node.js and Express Hosted on Microsoft Azure Template</h1>
-<p>This repository serves as a template that can be used to create a Node.js and Express based website that can easily
-be hosted on Microsoft Azure.</p>
 
-Additional application functionality includes:<br />
-<a href="fetching-from-server.html">Accessing Node.js Server-Side Application Programming Interfaces (APIs)</a><br />
-<a href="fetching-remote-dog-breeds.html">Accessing Remote Application Programming Interfaces (APIs)</a>
+<body onload="init()">
+    <div id="titleBar">
+        <h1>Welcome To Hang Guy</h1>
+        <p>A hangman game brought to you by Chris Fox</p>
+    </div>
+
+    <div id="topBar">
+        <div id="score"> Score: </div>
+        <div id="player"> Player: </div>
+    </div>
+
+    <div id="guessBox">
+        <form action="" id="guessText">
+            <label for="formField"> Please enter a letter</label>
+            <input type="text" name="userInput" id="guessedLetter" minlength= "1" maxlength="1" size="1">
+            <button id="btn" type="button" > Submit </button>
+        </form>
+    </div>
+                    <div id="showWord">
+                <h1> Here is where the shown word will go</h1>
+            </div>
+    <div id="mainBody">
+
+        <div id="bodyLeft">
+            <div id="image">
+                <h1>Here is where the image will go</h1>
+            </div>
+
+        </div>
+
+        <div id="bodyRight">
+            <div id="turns"> 
+                <p> Turns: </p>
+            </div>
+            <h1>Guessed letter bank</h1>
+            <div id="guessedLetters">
+                
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script> -->
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="javascript/mainGame.js"></script>
 </body>
 </html>

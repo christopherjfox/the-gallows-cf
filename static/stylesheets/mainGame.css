@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+body{
+    background-color: antiquewhite;
+}
+
+#titleBar{
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 150px;
+    background-color: rgb(161, 146, 247);
+    text-align: center;
+    color: black;
+    font-size: xx-large;
+}
+
+#topBar{
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-bottom: 20px;
+    font-size: larger;
+    background-color: darkgray;
+}
+
+#score{
+    float: right;
+}
+
+
+
+#player{
+    float: left;
+}
+
+#guessBox{
+    font-size: xx-large;
+    background-color: rgb(161, 146, 247);
+    padding-top: 5px;
+    padding-bottom: 10px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#guessText{
+    text-align: center;
+}
+
+#mainBody{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#bodyLeft{
+    margin: auto;
+    width: 70%;
+    float: left;
+    border: solid;
+    height: 750px;
+    background-color: aliceblue;
+}
+
+#image{
+    padding-top: 30px;
+    
+}
+
+#showWord{
+    font-size: 24pt;
+    text-align: center;
+    padding-top: 50px;
+    margin-left: 40%;
+    margin-right: 40%;
+    background-color:darkorange;
+    border: dashed;
+    
+    
+}
+
+#bodyRight{
+    float: left;
+    border: solid;
+    width: 25%;
+    height: 200px;
+    background-color: aliceblue;
+}
+#turns{
+    text-align: right;
+    font-size: large;
+}
+#guessedLetters{
+    font-size: 24pt;
+    text-align: center;
+
+}
+
+input{
+    font-size: large;
+    background-color: darkgray;
+    max-width: 30;
+    text-align: center;
+}
+
+#btn {
+    background-color: aquamarine;
+    font-size: 18pt;
+    
+}
