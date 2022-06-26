@@ -1,3 +1,4 @@
+const { response } = require('express');
 const express = require('express')
 const res = require('express/lib/response');
 app = express()
@@ -98,12 +99,37 @@ var hangmanProperties ={
         }
 }
 
+
+
 app.get('/hangmanProperties', (request, response) => {
-	console.log('Calling "/hangmanPropeties" on the Node.js server.')
-	response.type('application/json')
-	response.send(JSON.stringify(hangmanProperties, null, 4))
+	console.log('Calling "/hangmanPropeties" on the Node.js server.');
+	response.type('application/json');
+	response.send(JSON.stringify(hangmanProperties, null, 4));
 })
 
+var score = 0;
+
+app.get('/score', (request, response) => {
+	console.log('Calling "/score" on the Node.js server.')
+	response.type('text/plain');
+	response.send(score.toString());
+})
+
+app.get('/updateScore', (request, response) => {
+	console.log("updating score by one");
+	score = score + 1;
+	console.log("print score: " + score);
+	response.type('text/plain');
+	response.send(score.toString());
+})
+
+var player = "Chris";
+
+app.get('/getPlayerName', (request, response) => {
+	console.log('Calling "/getPlayerName" on the Node.js server.');
+	response.type('text/plain');
+	response.send(player);
+})
 
 // Custom 404 page.
 app.use((request, response) => {

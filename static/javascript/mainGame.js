@@ -1,6 +1,7 @@
 
 
-const url = "/hangmanProperties";
+const jsonURL = "/hangmanProperties";
+
 var serverJson = {};
 var secretWord,
     secretWordArray = [],
@@ -8,19 +9,13 @@ var secretWord,
     letterBank = [],
     turns,
     player = "",
-    score = 0, 
+    score = "", 
     gameOver = new Boolean;
 
 
     /**************************************/    
     async function init (){
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data);
-        serverJson = data;
-        console.log(serverJson);
-        
-        setUpGame();  
+        await setUpGame();  
         console.log("hiddenword: " + hiddenWord + " Turns: " + " Player: " + player + " score: " + score);
 
         document.getElementById("btn").onclick = function(){
@@ -30,8 +25,10 @@ var secretWord,
 
     /**************************************/    
     async function setUpGame(){
+        await getSecretWordJson();
+        await getPlayer(); 
+        await getScore();
         secretWord = serverJson.hangmanProperties.Secret;
-        player = serverJson.hangmanProperties.Player;
         Hint = serverJson.hangmanProperties.Hint;
         gameOver = false; 
         turns = 0; 
@@ -44,7 +41,10 @@ var secretWord,
         document.getElementById("player").append("Player: " + player );
         document.getElementById("score").innerHTML = ("");
         document.getElementById("score").append("Score: " + score);
-        document.getElementById("guessedLetters").innerHTML = ("");         
+        document.getElementById("guessedLetters").innerHTML = (""); 
+        document.getElementById("hint").innerHTML = ("");
+        document.getElementById("hint").append( "Hint: " + "\"" + Hint + "\""); 
+        document.getElementById("image").innerHTML = ("");   
         for(i=0; i < secretWord.length; i ++){
             hiddenWord[i] = "*";
         }       
@@ -68,8 +68,8 @@ var secretWord,
                 if (letter === letterBank[i]){
                     alert("letter already guessed");
                     letterExists = true;
-                }
-            }
+            }}
+
             if (letterExists === false){
                 letterBank.push(letter);
                 console.log("adding " + letter + " letterbank " + letterBank);
@@ -77,20 +77,13 @@ var secretWord,
                 validateHiddenWord(letter);
             }
             document.getElementById("guessedLetter").value = "";
-        }
-    }
-
+        }}
 
     /**************************************/
     async function printLetterBank(letter){
         letterBank.sort();
         document.getElementById("guessedLetters").innerHTML = "";
         document.getElementById("guessedLetters").append(letterBank);
-        /*if (letterBank.length > 1){
-            document.getElementById("guessedLetters").append(", " + letter);
-        }else{ 
-            document.getElementById("guessedLetters").append(letter);
-        }*/
     }
 
 
@@ -109,21 +102,27 @@ var secretWord,
                 document.getElementById("turns").innerHTML = ("");
                 document.getElementById("turns").append(turns);
                 checkRemainingTurns();
+                if (gameOver === true){
+                    if (confirm("The game is over! you have lost\n" +
+                        "Would you like to start another game?")){
+                        console.log("New Game Starting");
+                        resetGame();
+                    }else{
+                        console.log("New game aborted");
+                    }
+                }
             }
+
         if (foundLetter === true){
-            displaySecretWord(letter);
+            checkSecretWord(letter);
             checkWin();
         }
-      
-        if (gameOver === true){
-            alert("The game is over! you have lost");
-            resetGame();
-        } 
-    }
+                    
+        }
 
 
     /***********************************/
-    async function displaySecretWord(letter){
+    async function checkSecretWord(letter){
         for (i=0; i < secretWord.length; i ++){
             if ( letter === secretWord[i]){
                     hiddenWord[i] = (secretWord[i]);
@@ -151,7 +150,7 @@ var secretWord,
      /***********************************/
     async function checkRemainingTurns(){ 
         paintImage();                                                       
-        if (turns >= 10){
+        if (turns >= 8){
             gameOver = true;
         }
     }
@@ -170,7 +169,7 @@ var secretWord,
             if (confirm("Congratulations you have won the game!\n" +
                         "Would you like to start another game?")){
                 console.log("New Game Starting");
-                score = score + 1; 
+                updateScore();
                 resetGame();
             }else{
                 console.log("New game aborted");
@@ -178,62 +177,115 @@ var secretWord,
         }
     }
 
+    /***********************************/
     async function paintImage (){
             var node = document.createElement("p");
 
         if (turns === 1){
-            var textnode = document.createTextNode("Strike 1");
-            node.appendChild(textnode);
-            document.getElementById("image").appendChild(node);}
+            var img = document.createElement("img");
+            img.src = "images/image0.png";
+            img.width = "550";
+            img.height = "550";
+            document.getElementById("image").append(img);}
 
         if (turns === 2){
-            var textnode = document.createTextNode("Strike 2");
-            node.appendChild(textnode);
-            document.getElementById("image").appendChild(node);}
+            document.getElementById("image").innerHTML = (""); 
+            var img = document.createElement("img");
+            img.src = "images/image1.png";
+            img.width = "550";
+            img.height = "550";
+            document.getElementById("image").append(img);}
 
         if (turns === 3){
-            var textnode = document.createTextNode("Strike 3");
-            node.appendChild(textnode);
-            document.getElementById("image").appendChild(node);}
+            document.getElementById("image").innerHTML = (""); 
+            var img = document.createElement("img");
+            img.src = "images/image2.png";
+            img.width = "550";
+            img.height = "550";
+            document.getElementById("image").append(img);}
 
         if (turns === 4){
-            var textnode = document.createTextNode("Strike 4");
-            node.appendChild(textnode);
-            document.getElementById("image").appendChild(node);}
+            document.getElementById("image").innerHTML = (""); 
+            var img = document.createElement("img");
+            img.src = "images/image3.png";
+            img.width = "550";
+            img.height = "550";
+            document.getElementById("image").append(img);}
 
         if (turns === 5){
-            var textnode = document.createTextNode("Strike 5");
-            node.appendChild(textnode);
-            document.getElementById("image").appendChild(node);}
+            document.getElementById("image").innerHTML = (""); 
+            var img = document.createElement("img");
+            img.src = "images/image4.png";
+            img.width = "550";
+            img.height = "550";
+            document.getElementById("image").append(img);}
 
         if (turns === 6){
-            var textnode = document.createTextNode("Strike 6");
-            node.appendChild(textnode);
-            document.getElementById("image").appendChild(node);}
+            document.getElementById("image").innerHTML = (""); 
+            var img = document.createElement("img");
+            img.src = "images/image5.png";
+            img.width = "550";
+            img.height = "550";
+            document.getElementById("image").append(img);}
 
         if (turns === 7){
-            var textnode = document.createTextNode("Strike 7");
-            node.appendChild(textnode);
-            document.getElementById("image").appendChild(node);}
+            document.getElementById("image").innerHTML = (""); 
+            var img = document.createElement("img");
+            img.src = "images/image6.png";
+            img.width = "550";
+            img.height = "550";
+            document.getElementById("image").append(img);}
 
         if (turns === 8){
-            var textnode = document.createTextNode("Strike 8");
-            node.appendChild(textnode);
-            document.getElementById("image").appendChild(node);}
+            document.getElementById("image").innerHTML = (""); 
+            var img = document.createElement("img");
+            img.src = "images/image7.png";
+            img.width = "550";
+            img.height = "550";
+            document.getElementById("image").append(img);
+        }}       
 
-        if (turns === 9){
-            var textnode = document.createTextNode("Strike 9");
-            node.appendChild(textnode);
-            document.getElementById("image").appendChild(node);}
-        if (turns === 10){
-            var textnode = document.createTextNode("Strike 10");
-            node.appendChild(textnode);
-            document.getElementById("image").appendChild(node);}
-        }       
-
-     /***********************************/
+    /***********************************/
     function resetGame(){
         init();
+    }
+
+    /***********************************/
+    async function getSecretWordJson(){
+        var response = await fetch(jsonURL);
+        var data = await response.json();
+        console.log(data);
+        serverJson = data;
+        console.log(serverJson);
+    }
+
+
+
+
+    /**********Server calls from Client*************/
+    /***********************************/
+    async function getScore(){
+        var scoreResponse = await fetch('/score');
+        var scoreData = await scoreResponse.text();
+        console.log("Printing score: " + scoreData);
+        score = scoreData;
+    }
+
+    /***********************************/
+    // Calling server to update score and return data //
+    async function updateScore(){
+        var scoreUpdate = await fetch('/updateScore');
+        var updateScoreData = await scoreUpdate.text();
+        console.log("Printing updated: score " + updateScoreData);
+    }
+
+    /***********************************/
+    // Calling server to update player name and return data //
+    async function getPlayer(){
+        var playerResponse = await fetch('/getPlayerName');
+        var playerData = await playerResponse.text();
+        console.log("Printing score: " + playerData);
+        player = playerData;
     }
 
 

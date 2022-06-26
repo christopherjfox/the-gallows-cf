@@ -62,9 +62,16 @@ body{
     background-color: aliceblue;
 }
 
+#hint{
+    font-size: 24pt;
+    text-align: center;
+}
+
+
 #image{
     padding-top: 30px;
-    
+    padding-left: 20%;
+    margin: auto;
 }
 
 #showWord{
@@ -75,8 +82,6 @@ body{
     margin-right: 40%;
     background-color:darkorange;
     border: dashed;
-    
-    
 }
 
 #bodyRight{
@@ -86,14 +91,15 @@ body{
     height: 200px;
     background-color: aliceblue;
 }
+
 #turns{
     text-align: right;
     font-size: large;
 }
+
 #guessedLetters{
     font-size: 24pt;
     text-align: center;
-
 }
 
 input{
