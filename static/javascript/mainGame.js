@@ -1,3 +1,10 @@
+/*    The Gallows
+    Christopher Fox 
+    Lewis University Summer 2022 
+    CPSC - 24700 - Web and Distributed Prog 
+    Final Project. 
+    Nodejs server template utilized from Eric J Pogues GitHub repository. Word idea's pulled from mulitple different google websearches. 
+*/
 
 
 const jsonURL = "/hangmanProperties";
@@ -15,6 +22,7 @@ var secretWord,
 
     /**************************************/    
     async function init (){
+        var introWindow = window.open("/instructions-page", "intro", "Height = 900, Width = 1000");
         await setUpGame();  
         console.log("hiddenword: " + hiddenWord + " Turns: " + " Player: " + player + " score: " + score);
 
