@@ -1,10 +1,3 @@
-/*    The Gallows
-    Christopher Fox 
-    Lewis University Summer 2022 
-    CPSC - 24700 - Web and Distributed Prog 
-    Final Project. 
-    Nodejs server template utilized from Eric J Pogues GitHub repository. Word idea's pulled from mulitple different google websearches. 
-*/
 
 
 const jsonURL = "/hangmanProperties";
@@ -17,12 +10,12 @@ var secretWord,
     turns,
     player = "",
     score = "", 
+    hint = "",
     gameOver = new Boolean;
 
 
     /**************************************/    
     async function init (){
-        var introWindow = window.open("/instructions-page", "intro", "Height = 900, Width = 1000");
         await setUpGame();  
         console.log("hiddenword: " + hiddenWord + " Turns: " + " Player: " + player + " score: " + score);
 
@@ -33,11 +26,13 @@ var secretWord,
 
     /**************************************/    
     async function setUpGame(){
-        await getSecretWordJson();
+        await updateSecretWord();
+        await getSecretWord();
+        await getSecretHint();
         await getPlayer(); 
         await getScore();
-        secretWord = serverJson.hangmanProperties.Secret;
-        Hint = serverJson.hangmanProperties.Hint;
+        //secretWord = serverJson.hangmanProperties.Secret;
+        //Hint = serverJson.hangmanProperties.Hint;
         gameOver = false; 
         turns = 0; 
         letterBank = [];
@@ -51,7 +46,7 @@ var secretWord,
         document.getElementById("score").append("Score: " + score);
         document.getElementById("guessedLetters").innerHTML = (""); 
         document.getElementById("hint").innerHTML = ("");
-        document.getElementById("hint").append( "Hint: " + "\"" + Hint + "\""); 
+        document.getElementById("hint").append( "Hint: " + "\"" + hint + "\""); 
         document.getElementById("image").innerHTML = ("");   
         for(i=0; i < secretWord.length; i ++){
             hiddenWord[i] = "*";
@@ -108,7 +103,7 @@ var secretWord,
         if (foundLetter === false){
                 turns ++;
                 document.getElementById("turns").innerHTML = ("");
-                document.getElementById("turns").append(turns);
+                document.getElementById("turns").append("Turns: " + turns);
                 checkRemainingTurns();
                 if (gameOver === true){
                     if (confirm("The game is over! you have lost\n" +
@@ -258,19 +253,37 @@ var secretWord,
         init();
     }
 
+    
+    
+    /**********Server calls from Client*************/
     /***********************************/
-    async function getSecretWordJson(){
-        var response = await fetch(jsonURL);
-        var data = await response.json();
-        console.log(data);
-        serverJson = data;
-        console.log(serverJson);
+    async function updateSecretWord(){
+        var secretWordResponse = await fetch('/updateSecreteWord');
+        var secretWordData = await secretWordResponse.text();
+        console.log(secretWordData);
+
+        var hintServerResponse = await fetch('/updateSecreteWordHint');
+        var hintServerData = await hintServerResponse.text();
+        console.log(hintServerData);
     }
 
+    /***********************************/
+    async function getSecretWord(){
+        var secretResponse = await fetch("/getSecretWord");
+        var secretData = await secretResponse.text();
+        console.log(secretData);
+        secretWord = secretData; 
+        
+    }
 
+    async function getSecretHint(){
+        var hintResponse = await fetch("/getSecretWordHint");
+        var hintData = await hintResponse.text();
+        console.log(hintData);
+        hint = hintData; 
+        
+    }
 
-
-    /**********Server calls from Client*************/
     /***********************************/
     async function getScore(){
         var scoreResponse = await fetch('/score');
