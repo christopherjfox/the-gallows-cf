@@ -39,8 +39,14 @@ const wordSchema = {
 const word = mongoose.model("word", wordSchema);
 
 
+/************************************************************/
+/************************************************************/
+// server to database calls //
 var secretWord = "";
 var secretWordHint= "";
+var randomNumber = 0; 
+var score = 0;
+var player = "Chris";
 
 app.get("/updateSecreteWord", (request, response) => {
 	const client = new MongoClient(mongooseUri);
@@ -48,10 +54,12 @@ app.get("/updateSecreteWord", (request, response) => {
 	client.db("wordDatabase").collection("words").find({}).toArray(function(err, result){
 		if (err) throw err;
 		console.log(result);
-		console.log(result[2]['name']);
-		secretWord = result[2]["name"];
+		randomNumber = Math.floor(Math.random() * (result.length - 0)) + 0;
+		console.log(randomNumber); 
+		console.log(result[randomNumber]['name']);
+		secretWord = result[randomNumber]["name"];
 
-		console.log('Calling "/updateSecretWord" on the Node.js server.');
+		console.log('Calling "/updateSecretWord" on the Node.js server. ' + secretWord);
 
 		});
 		response.type('text/plain');
@@ -63,9 +71,9 @@ app.get("/updateSecreteWord", (request, response) => {
 		console.log("testing words");
 		client.db("wordDatabase").collection("words").find({}).toArray(function(err, result){
 			if (err) throw err;
-			console.log(result[2]['hint']);
-			secretWordHint = result[2]["hint"];
-			console.log('Calling "/updateSecretWord" on the Node.js server.');
+			console.log(result[randomNumber]['hint']);
+			secretWordHint = result[randomNumber]["hint"];
+			console.log('Calling "/updateSecretWord" on the Node.js server. ' + secretWordHint);
 			response.type('text/plain');
 			response.send("Hint updated");
 		});
@@ -83,126 +91,32 @@ app.get("/updateSecreteWord", (request, response) => {
 		response.send(secretWordHint);
 	})
 
+	app.get('/score', (request, response) => {
+		console.log('Calling "/score" on the Node.js server.')
+		response.type('text/plain');
+		response.send(score.toString());
+	})
+	
+	app.get('/updateScore', (request, response) => {
+		console.log("updating score by one");
+		score = score + 1;
+		console.log("print score: " + score);
+		response.type('text/plain');
+		response.send(score.toString());
+	})
+	
 
+	
+	app.get('/getPlayerName', (request, response) => {
+		console.log('Calling "/getPlayerName" on the Node.js server.');
+		response.type('text/plain');
+		response.send(player);
+	})
 
+	/************************************************************/
+	/************************************************************/
+	/************************************************************/
 
-// The app.get functions below are being processed in Node.js running on the server.
-// Implement a custom About page.
-app.get('/about', (request, response) => {
-	console.log('Calling "/about" on the Node.js server.')
-	response.type('text/plain')
-	response.send('About Node.js on Azure Template.')
-})
-
-app.get('/version', (request, response) => {
-	console.log('Calling "/version" on the Node.js server.')
-	response.type('text/plain')
-	response.send('Version: '+majorVersion+'.'+minorVersion)
-})
-
-// Return the value of 2 plus 2.
-app.get('/2plus2', (request, response) => {
-	console.log('Calling "/2plus2" on the Node.js server.')
-	response.type('text/plain')
-	response.send('4')
-})
-
-// Add x and y which are both passed in on the URL. 
-app.get('/add-two-integers', (request, response) => {
-	console.log('Calling "/add-two-integers" on the Node.js server.')
-	var inputs = url.parse(request.url, true).query
-	let x = parseInt(inputs.x)
-	let y = parseInt(inputs.y)
-	let sum = x + y
-	response.type('text/plain')
-	response.send(sum.toString())
-})
-
-// Template for calculating BMI using height in feet/inches and weight in pounds.
-app.get('/calculate-bmi', (request, response) => {
-	console.log('Calling "/calculate-bmi" on the Node.js server.')
-	var inputs = url.parse(request.url, true).query
-	const heightFeet = parseInt(inputs.feet)
-	const heightInches = parseInt(inputs.inches)
-	const weight = parseInt(inputs.lbs)
-
-	console.log('Height:' + heightFeet + '\'' + heightInches + '\"')
-	console.log('Weight:' + weight + ' lbs.')
-
-	// Todo: Implement unit conversions and BMI calculations.
-	// Todo: Return BMI instead of Todo message.
-
-	response.type('text/plain')
-	response.send('Todo: Implement "/calculate-bmi"')
-})
-
-// Test a variety of functions.
-app.get('/test', (request, response) => {
-    // Write the request to the log. 
-    console.log(request);
-
-    // Return HTML.
-    response.writeHead(200, {'Content-Type': 'text/html'});
-    response.write('<h3>Testing Function</h3>')
-
-    // Access function from a separate JavaScript module.
-    response.write("The date and time are currently: " + dt.myDateTime() + "<br><br>");
-
-    // Show the full url from the request. 
-    response.write("req.url="+request.url+"<br><br>");
-
-    // Suggest adding something tl the url so that we can parse it. 
-    response.write("Consider adding '/test?year=2017&month=July' to the URL.<br><br>");
-    
-	// Parse the query string for values that are being passed on the URL.
-	var q = url.parse(request.url, true).query;
-    var txt = q.year + " " + q.month;
-    response.write("txt="+txt);
-
-    // Close the response
-    response.end('<h3>The End.</h3>');
-})
-
-// Return Hangman game properties as Json.
-var hangmanProperties ={
-    "hangmanProperties" : {
-        "Secret" : "SNAKE",
-        "Player" : "Chris",
-		"Hint": "Scales"
-        }
-}
-
-
-
-app.get('/hangmanProperties', (request, response) => {
-	console.log('Calling "/hangmanPropeties" on the Node.js server.');
-	response.type('application/json');
-	response.send(JSON.stringify(hangmanProperties, null, 4));
-})
-
-var score = 0;
-
-app.get('/score', (request, response) => {
-	console.log('Calling "/score" on the Node.js server.')
-	response.type('text/plain');
-	response.send(score.toString());
-})
-
-app.get('/updateScore', (request, response) => {
-	console.log("updating score by one");
-	score = score + 1;
-	console.log("print score: " + score);
-	response.type('text/plain');
-	response.send(score.toString());
-})
-
-var player = "Chris";
-
-app.get('/getPlayerName', (request, response) => {
-	console.log('Calling "/getPlayerName" on the Node.js server.');
-	response.type('text/plain');
-	response.send(player);
-})
 
 // Custom 404 page.
 app.use((request, response) => {
