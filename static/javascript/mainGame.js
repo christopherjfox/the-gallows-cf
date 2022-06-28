@@ -83,6 +83,7 @@ var secretWord,
         }}
 
     /**************************************/
+    // updates display of guessed letters
     async function printLetterBank(letter){
         letterBank.sort();
         document.getElementById("guessedLetters").innerHTML = "";
@@ -91,6 +92,7 @@ var secretWord,
 
 
     /**************************************/
+    //Checks to see if entered letter exists in secret word
     async function validateHiddenWord(letter){
         let foundLetter = false
         console.log("checking agains secrete word");
@@ -100,6 +102,7 @@ var secretWord,
                 foundLetter = true;
             }  
         }
+        // if letter not found add one turn taken and check if game is over 
         if (foundLetter === false){
                 turns ++;
                 document.getElementById("turns").innerHTML = ("");
@@ -125,6 +128,7 @@ var secretWord,
 
 
     /***********************************/
+    //updates hidden word with selected letter
     async function checkSecretWord(letter){
         for (i=0; i < secretWord.length; i ++){
             if ( letter === secretWord[i]){
@@ -136,6 +140,7 @@ var secretWord,
     }
 
     /***********************************/
+    // displays updated hidden word to display
     async function updateSecretWordDisplay(){   
         document.getElementById("showWord").innerHTML = (""); 
         document.getElementById("showWord").append(hiddenWord);
@@ -143,6 +148,7 @@ var secretWord,
     }
 
      /***********************************/
+     // takes secret word and makes it an array to compare
     async function makeArray(){
         for (i=0; i < secretWord.length; i ++){
             secretWordArray.push(secretWord[i]);    
@@ -151,6 +157,7 @@ var secretWord,
     }
 
      /***********************************/
+     //check if turns taken is maxed out
     async function checkRemainingTurns(){ 
         paintImage();                                                       
         if (turns >= 8){
@@ -267,6 +274,8 @@ var secretWord,
         console.log(hintServerData);
     }
 
+    
+    
     /***********************************/
     async function getSecretWord(){
         var secretResponse = await fetch("/getSecretWord");
@@ -284,6 +293,9 @@ var secretWord,
         
     }
 
+
+
+    /**********Server calls from Client*************/
     /***********************************/
     async function getScore(){
         var scoreResponse = await fetch('/score');

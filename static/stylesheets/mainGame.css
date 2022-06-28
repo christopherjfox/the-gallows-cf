@@ -4,7 +4,7 @@
 }
 
 body{
-    background-color: antiquewhite;
+    background-image: url(/images/westBackground.jpg);
 }
 
 #titleBar{
@@ -20,16 +20,14 @@ body{
 #topBar{
     margin-left: 10%;
     margin-right: 10%;
-    padding-bottom: 20px;
-    font-size: larger;
+    padding-bottom: 30px;
+    font-size: x-large;
     background-color: darkgray;
 }
 
 #score{
     float: right;
 }
-
-
 
 #player{
     float: left;
@@ -55,11 +53,12 @@ body{
 
 #bodyLeft{
     margin: auto;
+    margin-top: 10px;
     width: 70%;
     float: left;
     border: solid;
     height: 750px;
-    background-color: aliceblue;
+    background-color: rgb(161, 146, 247);
 }
 
 #hint{
@@ -69,37 +68,48 @@ body{
 
 
 #image{
+
     padding-top: 30px;
     padding-left: 20%;
     margin: auto;
 }
 
+#hiddenBox{
+    font-size: large;
+    text-align: center;
+    margin-left: 40%;
+    margin-right: 40%;
+    background-color: darkorange;
+}
+
 #showWord{
     font-size: 24pt;
     text-align: center;
-    padding-top: 50px;
+    padding-top: 30px;
+    padding-bottom: 20px;
     margin-left: 40%;
     margin-right: 40%;
     background-color:darkorange;
     border: dashed;
+    
 }
 
 #bodyRight{
     float: left;
+    margin-top: 10px;
     border: solid;
     width: 25%;
     height: 200px;
-    background-color: aliceblue;
+    background-color: rgb(161, 146, 247);
 }
-
 #turns{
     text-align: right;
     font-size: large;
 }
-
 #guessedLetters{
     font-size: 24pt;
     text-align: center;
+
 }
 
 input{

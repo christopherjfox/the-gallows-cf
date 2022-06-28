@@ -1,27 +1,16 @@
 <html lang="en">
-
-<!--
-    The Gallows
-    Christopher Fox 
-    Lewis University Summer 2022 
-    CPSC - 24700 - Web and Distributed Prog 
-    Final Project. 
-    Nodejs server template utilized from Eric J Pogues GitHub repository. Word idea's pulled from mulitple different google websearches. 
--->
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <link rel="stylesheet" href="stylesheets/mainGame.css">
     <title>The Gallows</title>
 </head>
 
 <body onload="init()">
-
     <div id="titleBar">
-        <h1>Welcome To The Gallows</h1>
+        <h1>Welcome To "The Gallows"</h1>
         <p>A hangman game brought to you by Chris Fox</p>
     </div>
 
@@ -37,14 +26,17 @@
             <button id="btn" type="button" > Submit </button>
         </form>
     </div>
-                    <div id="showWord">
-                <h1> Here is where the shown word will go</h1>
-            </div>
+    
+    <div id="hiddenBox">
+        <H2> Secret Word: </H2></div>
+        <div id="showWord"></div>
+    
+   
     <div id="mainBody">
 
         <div id="bodyLeft">
             <div id="hint">
-                <h2>Hint: </h2>
+                <h2></h2>
             </div>
             <div id="image">
     
@@ -56,7 +48,7 @@
             <div id="turns"> 
                 <p> Turns: </p>
             </div>
-            <h1>Guessed letter bank</h1>
+            <h1>Used letter bank: </h1>
             <div id="guessedLetters">
                 
             </div>
