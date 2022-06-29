@@ -1,6 +1,5 @@
 
 
-const jsonURL = "/hangmanProperties";
 
 var serverJson = {};
 var secretWord,
@@ -16,28 +15,44 @@ var secretWord,
 
     /**************************************/    
     async function init (){
-        await setUpGame();  
-        console.log("hiddenword: " + hiddenWord + " Turns: " + " Player: " + player + " score: " + score);
+        setUpGame();  
+        //console.log("hiddenword: " + hiddenWord + " Turns: " + " Player: " + player + " score: " + score);
 
+        //set listeners for buttons
         document.getElementById("btn").onclick = function(){
             validateLetterBank();
+        }
+        document.getElementById("newGameBtn").onclick = function(){
+            setUpGame();
+        }
+        document.getElementById("resetScoreBtn").onclick = function(){
+            resetScore();
         }
     }
 
     /**************************************/    
     async function setUpGame(){
+        turns = 0; 
+        letterBank = [];
+        hiddenWord = [];
+        secretWordArray = [];    
+        gameOver = false; 
+        await loadServerData();
+        await loadPageData ();
+    }
+
+    async function loadServerData(){
+        await updateSecretWordHint();
         await updateSecretWord();
         await getSecretWord();
         await getSecretHint();
         await getPlayer(); 
         await getScore();
-        //secretWord = serverJson.hangmanProperties.Secret;
-        //Hint = serverJson.hangmanProperties.Hint;
-        gameOver = false; 
-        turns = 0; 
-        letterBank = [];
-        hiddenWord = [];
-        secretWordArray = [];
+    }
+
+    async function loadPageData(){
+        document.getElementById("guessedLetter").value = "";
+        document.getElementById("winLoseBox").innerHTML = ("");
         document.getElementById("turns").innerHTML = ("");
         document.getElementById("turns").append("Turns: " + turns);
         document.getElementById("player").innerHTML = ("");
@@ -52,7 +67,7 @@ var secretWord,
             hiddenWord[i] = "*";
         }       
         updateSecretWordDisplay(); 
-        makeArray();  
+        makeArray(); 
     }
 
 
@@ -63,17 +78,20 @@ var secretWord,
         letter = document.getElementById("guessedLetter").value;
         letter = letter.toUpperCase(); 
         if (letter === ""){
-            alert("you must enter in a letter");
+            document.getElementById("winLoseBox").innerHTML = ("");
+            document.getElementById("winLoseBox").append("***You must enter in a value***");
         }else{
         console.log("valdiating letter: " + letter);
         console.log(letterBank.length);
             for (i=0; i < letterBank.length; i ++){
                 if (letter === letterBank[i]){
-                    alert("letter already guessed");
+                    document.getElementById("winLoseBox").innerHTML = ("");
+                    document.getElementById("winLoseBox").append("***Letter already Guessed***");
                     letterExists = true;
             }}
 
             if (letterExists === false){
+                document.getElementById("winLoseBox").innerHTML = ("");
                 letterBank.push(letter);
                 console.log("adding " + letter + " letterbank " + letterBank);
                 printLetterBank(letter);
@@ -98,7 +116,8 @@ var secretWord,
         console.log("checking agains secrete word");
         for (i=0; i < secretWord.length; i ++){
             if (letter === secretWord[i]){
-                alert("letter exists");
+                document.getElementById("winLoseBox").innerHTML = ("");
+                //alert("letter exists");
                 foundLetter = true;
             }  
         }
@@ -109,13 +128,11 @@ var secretWord,
                 document.getElementById("turns").append("Turns: " + turns);
                 checkRemainingTurns();
                 if (gameOver === true){
-                    if (confirm("The game is over! you have lost\n" +
-                        "Would you like to start another game?")){
-                        console.log("New Game Starting");
-                        resetGame();
-                    }else{
-                        console.log("New game aborted");
-                    }
+
+                    document.getElementById("winLoseBox").innerHTML = ("");
+                    document.getElementById("winLoseBox").append("***You have Lost*** ");
+                    document.getElementById("winLoseBox").append("The Secrete Word Was: " + secretWord);
+                    //document.getElementById("winLoseBox").append(" Please hit the \"New Game\" button to start again");
                 }
             }
 
@@ -176,14 +193,9 @@ var secretWord,
             }
         }
         if(winner === true){
-            if (confirm("Congratulations you have won the game!\n" +
-                        "Would you like to start another game?")){
-                console.log("New Game Starting");
-                updateScore();
-                resetGame();
-            }else{
-                console.log("New game aborted");
-            }
+            document.getElementById("winLoseBox").innerHTML = ("");
+            document.getElementById("winLoseBox").append("***Winner Winner***");
+            updateScore();
         }
     }
 
@@ -268,8 +280,10 @@ var secretWord,
         var secretWordResponse = await fetch('/updateSecreteWord');
         var secretWordData = await secretWordResponse.text();
         console.log(secretWordData);
-
-        var hintServerResponse = await fetch('/updateSecreteWordHint');
+    }
+    
+    async function updateSecretWordHint(){
+        var hintServerResponse = await fetch('/updateSecretWordHint');
         var hintServerData = await hintServerResponse.text();
         console.log(hintServerData);
     }
@@ -282,7 +296,6 @@ var secretWord,
         var secretData = await secretResponse.text();
         console.log(secretData);
         secretWord = secretData; 
-        
     }
 
     async function getSecretHint(){
@@ -290,7 +303,6 @@ var secretWord,
         var hintData = await hintResponse.text();
         console.log(hintData);
         hint = hintData; 
-        
     }
 
 
@@ -310,6 +322,13 @@ var secretWord,
         var scoreUpdate = await fetch('/updateScore');
         var updateScoreData = await scoreUpdate.text();
         console.log("Printing updated: score " + updateScoreData);
+    }
+
+    async function resetScore(){
+        var resetScore = await fetch('/resetScore');
+        var resetScoreData = await resetScore.text();
+        console.log("score reset to 0");
+        resetGame();
     }
 
     /***********************************/

@@ -5,16 +5,29 @@
 
 body{
     background-image: url(/images/westBackground.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #titleBar{
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
     margin-left: 10%;
     margin-right: 10%;
-    height: 150px;
-    background-color: rgb(161, 146, 247);
+    padding-bottom: 10px;
+    background-color: antiquewhite;
     text-align: center;
     color: black;
     font-size: xx-large;
+}
+
+#resetScoreBtn {
+    background-color: aquamarine;
+    font-size: 16pt; 
+}
+
+#newGameBtn {
+    background-color: aquamarine;
+    font-size: 16pt;
 }
 
 #topBar{
@@ -22,7 +35,7 @@ body{
     margin-right: 10%;
     padding-bottom: 30px;
     font-size: x-large;
-    background-color: darkgray;
+    background-color: rgb(197, 188, 248);
 }
 
 #score{
@@ -34,8 +47,9 @@ body{
 }
 
 #guessBox{
+    text-align: center;
     font-size: xx-large;
-    background-color: rgb(161, 146, 247);
+    background-color: rgb(197, 188, 248);
     padding-top: 5px;
     padding-bottom: 10px;
     margin-left: 10%;
@@ -43,6 +57,7 @@ body{
 }
 
 #guessText{
+    margin: auto;
     text-align: center;
 }
 
@@ -58,7 +73,7 @@ body{
     float: left;
     border: solid;
     height: 750px;
-    background-color: rgb(161, 146, 247);
+    background-color: rgb(197, 188, 248);
 }
 
 #hint{
@@ -82,6 +97,15 @@ body{
     background-color: darkorange;
 }
 
+#winLoseBox{
+    font-size: 18pt;
+    font-style: italic;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color:darkorange;
+}
+
 #showWord{
     font-size: 24pt;
     text-align: center;
@@ -91,25 +115,24 @@ body{
     margin-right: 40%;
     background-color:darkorange;
     border: dashed;
-    
 }
 
 #bodyRight{
     float: left;
     margin-top: 10px;
     border: solid;
-    width: 25%;
+    width: 29%;
     height: 200px;
-    background-color: rgb(161, 146, 247);
+    background-color: rgb(197, 188, 248);
 }
 #turns{
     text-align: right;
-    font-size: large;
+    font-size: x-large;
 }
+
 #guessedLetters{
     font-size: 24pt;
     text-align: center;
-
 }
 
 input{

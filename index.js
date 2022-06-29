@@ -66,7 +66,7 @@ app.get("/updateSecreteWord", (request, response) => {
 		response.send("word updated");
 	})
 
-	app.get("/updateSecreteWordHint", (request, response) => {
+	app.get("/updateSecretWordHint", (request, response) => {
 		const client = new MongoClient(mongooseUri);
 		console.log("testing words");
 		client.db("wordDatabase").collection("words").find({}).toArray(function(err, result){
@@ -100,6 +100,14 @@ app.get("/updateSecreteWord", (request, response) => {
 	app.get('/updateScore', (request, response) => {
 		console.log("updating score by one");
 		score = score + 1;
+		console.log("print score: " + score);
+		response.type('text/plain');
+		response.send(score.toString());
+	})
+
+	app.get('/resetScore', (request, response) => {
+		console.log("reseting score to 0");
+		score = 0;
 		console.log("print score: " + score);
 		response.type('text/plain');
 		response.send(score.toString());

@@ -12,6 +12,9 @@
     <div id="titleBar">
         <h1>Welcome To "The Gallows"</h1>
         <p>A hangman game brought to you by Chris Fox</p>
+        <div id="titleBarButtons"></div>
+        <button id="newGameBtn" type="button" > New Game </button>
+        <button id="resetScoreBtn" type="button" > Reset Score </button>
     </div>
 
     <div id="topBar">
@@ -25,33 +28,33 @@
             <input type="text" name="userInput" id="guessedLetter" minlength= "1" maxlength="1" size="1">
             <button id="btn" type="button" > Submit </button>
         </form>
+    
     </div>
     
     <div id="hiddenBox">
+        <div id="winLoseBox"></div>
         <H2> Secret Word: </H2></div>
         <div id="showWord"></div>
-    
-   
+        
+    </div>
+
     <div id="mainBody">
 
         <div id="bodyLeft">
             <div id="hint">
                 <h2></h2>
             </div>
-            <div id="image">
-    
-            </div>
+        <div id="image"></div>
 
-        </div>
+    </div>
 
         <div id="bodyRight">
             <div id="turns"> 
                 <p> Turns: </p>
             </div>
             <h1>Used letter bank: </h1>
-            <div id="guessedLetters">
-                
-            </div>
+            <div id="guessedLetters"></div>
+            
         </div>
 
     </div>
