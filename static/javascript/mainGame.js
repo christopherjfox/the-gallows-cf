@@ -1,6 +1,12 @@
+/* 
+ The Gallows 
+ Christopher Fox 
+ Lewis University Summer 2022 
+ CPSC - 24700 - Web and Distributed Prog 
+ Sound effects downloaded from Soundboard.com/sb/sound/939487 and  freesoundeffect.net/tags/cheers
+*/
 
-
-
+// Global Variables
 var serverJson = {};
 var secretWord,
     secretWordArray = [],
@@ -41,6 +47,7 @@ var secretWord,
         await loadPageData ();
     }
 
+    // function that calls serverfunctions to get game properties
     async function loadServerData(){
         await updateSecretWordHint();
         await updateSecretWord();
@@ -50,7 +57,8 @@ var secretWord,
         await getScore();
     }
 
-    async function loadPageData(){
+    // paints defaulted values to page. 
+        function loadPageData(){
         document.getElementById("guessedLetter").value = "";
         document.getElementById("winLoseBox").innerHTML = ("");
         document.getElementById("turns").innerHTML = ("");
@@ -72,6 +80,7 @@ var secretWord,
 
 
     /**************************************/
+    // Takes user input and validates if it has been guessed already. 
     async function validateLetterBank(){
         var letterExists = false;
         let letter = "";
@@ -90,6 +99,7 @@ var secretWord,
                     letterExists = true;
             }}
 
+            // puts letter in used letter bank if not already guessed. 
             if (letterExists === false){
                 document.getElementById("winLoseBox").innerHTML = ("");
                 letterBank.push(letter);
@@ -113,7 +123,7 @@ var secretWord,
     //Checks to see if entered letter exists in secret word
     async function validateHiddenWord(letter){
         let foundLetter = false
-        console.log("checking agains secrete word");
+        console.log("checking agains secret word");
         for (i=0; i < secretWord.length; i ++){
             if (letter === secretWord[i]){
                 document.getElementById("winLoseBox").innerHTML = ("");
@@ -130,8 +140,11 @@ var secretWord,
                 if (gameOver === true){
 
                     document.getElementById("winLoseBox").innerHTML = ("");
+                    document.getElementById("winLoseBox").innerHTML = ("");
+                    var audio = new Audio('sounds/losing-horn.mp3');
+                    audio.play();
                     document.getElementById("winLoseBox").append("***You have Lost*** ");
-                    document.getElementById("winLoseBox").append("The Secrete Word Was: " + secretWord);
+                    document.getElementById("winLoseBox").append("The Secret Word Was: " + secretWord);
                     //document.getElementById("winLoseBox").append(" Please hit the \"New Game\" button to start again");
                 }
             }
@@ -183,6 +196,7 @@ var secretWord,
     }
 
     /***********************************/
+    //checking if player won
     async function checkWin(){
         let winner = true;
         console.log("checking winning " + hiddenWord + " " + secretWordArray);
@@ -194,12 +208,15 @@ var secretWord,
         }
         if(winner === true){
             document.getElementById("winLoseBox").innerHTML = ("");
+            var audio = new Audio('sounds/crowd-cheer.mp3');
+            audio.play();
             document.getElementById("winLoseBox").append("***Winner Winner***");
             updateScore();
         }
     }
 
     /***********************************/
+    //updates hangman image on screen.
     async function paintImage (){
             var node = document.createElement("p");
 
@@ -273,11 +290,10 @@ var secretWord,
     }
 
     
-    
-    /**********Server calls from Client*************/
+    /**********calls from Client -> server -> database*************/
     /***********************************/
     async function updateSecretWord(){
-        var secretWordResponse = await fetch('/updateSecreteWord');
+        var secretWordResponse = await fetch('/updateSecretWord');
         var secretWordData = await secretWordResponse.text();
         console.log(secretWordData);
     }
@@ -289,7 +305,7 @@ var secretWord,
     }
 
     
-    
+    /**********call to retrieve server data*************/
     /***********************************/
     async function getSecretWord(){
         var secretResponse = await fetch("/getSecretWord");
@@ -305,10 +321,6 @@ var secretWord,
         hint = hintData; 
     }
 
-
-
-    /**********Server calls from Client*************/
-    /***********************************/
     async function getScore(){
         var scoreResponse = await fetch('/score');
         var scoreData = await scoreResponse.text();
@@ -324,6 +336,8 @@ var secretWord,
         console.log("Printing updated: score " + updateScoreData);
     }
 
+    /***********************************/
+    // resets score saved in server
     async function resetScore(){
         var resetScore = await fetch('/resetScore');
         var resetScoreData = await resetScore.text();

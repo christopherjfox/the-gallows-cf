@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0
+}
+
+body{
+    background-image : url(westBackground.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#titleBar{
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-bottom: 10px;
+    background-color: antiquewhite;
+    text-align: center;
+    color: black;
+    font-size: xx-large;
+}
+
+#userEntryBox{
+    margin-left: 40%;
+    margin-right: 40%;
+    padding-top: 50px;
+    height: 100px;
+    text-align: center;
+}
+
+#nameBox{
+    background-color: antiquewhite;
+    padding: 15px;
+    font-size: x-large;
+}
+
+#nameField{
+    background-color: rgb(201, 235, 223);
+    font-size: 22pt;
+    text-align: center;
+}
+
+#btn{
+    font-size: 22px;
+    margin-top: 10px;
+}
+

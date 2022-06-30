@@ -19,14 +19,17 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 const mongoose = require("mongoose");
 const { ObjectID } = require("bson");
+const { request } = require('http');
 
 //Creates a mongo client to use when accessing database
 let MongoClient = require('mongodb').MongoClient;
 
 // create constant url for connection to database
 const mongooseUri = "mongodb+srv://WordDatabaseUser:AaxhxWSQN6zAFq1A@cluster0.ijn0yv8.mongodb.net/wordDatabase"
-//AaxhxWSQN6zAFq1A
-//WordDatabaseUser
+const client = new MongoClient(mongooseUri);
+//MongoDB Usernaem: WordDatabaseUser
+//MongoDB Password: AaxhxWSQN6zAFq1A
+
 
 mongoose.connect(mongooseUri, {useNewUrlParser: true}, {useUnifiedTopology: true})
 
@@ -38,7 +41,6 @@ const wordSchema = {
 
 const word = mongoose.model("word", wordSchema);
 
-
 /************************************************************/
 /************************************************************/
 // server to database calls //
@@ -46,10 +48,16 @@ var secretWord = "";
 var secretWordHint= "";
 var randomNumber = 0; 
 var score = 0;
-var player = "Chris";
+var player = "";
 
-app.get("/updateSecreteWord", (request, response) => {
-	const client = new MongoClient(mongooseUri);
+app.post('/setUserName', function (req,res) {
+		console.log("setting user name");
+		player = req.body.userInput; 
+		return res.redirect('/mainGame.html');
+});
+
+app.get("/updateSecretWord", (request, response) => {
+	//const client = new MongoClient(mongooseUri);
 	console.log("testing words");
 	client.db("wordDatabase").collection("words").find({}).toArray(function(err, result){
 		if (err) throw err;
@@ -67,7 +75,7 @@ app.get("/updateSecreteWord", (request, response) => {
 	})
 
 	app.get("/updateSecretWordHint", (request, response) => {
-		const client = new MongoClient(mongooseUri);
+		//const client = new MongoClient(mongooseUri);
 		console.log("testing words");
 		client.db("wordDatabase").collection("words").find({}).toArray(function(err, result){
 			if (err) throw err;
